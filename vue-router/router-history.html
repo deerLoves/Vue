@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <ul>
+    <!-- 定义路由 -->
+    <li>
+      <a href="/home">Home</a>
+    </li>
+    <li>
+      <a href="/about">About</a>
+    </li>
+    <!-- 渲染路由对应的 UI -->
+    <div id="routerView"></div>
+  </ul>
+</body>
+<script>
+  /**
+   * hash问题：
+   * 1、hash产生的历史记录是无法修改的，每次hash变化都会产生新的历史记录
+   * 2、hash变化，URL也会变化，用户体验不好
+   * 3、hash只是一个字符串，不能存储更多的信息
+   * 
+   * history.pushState(state, title, url)
+   * 1. state: 与要跳转的URL对应的状态信息
+   * 2. title: 不知道干啥的，传空字符串就行
+   * 3. url: 要跳转的URL地址，不能跨域
+   * 
+   * history: 提供了pushState 和 replaceState两个方法，这两个方法改变URL的path部分不会引起页面刷新
+   * history 提供类似hashchange事件的popState事件，不过有不同：
+   * 
+   * 1、通过浏览器前进后退改变URL时会触发popstate事件
+   * 2、通过pushState/replaceState或<a>标签改变URL不会触发popstate事件
+   * 3、通过js调用history的back，go，forward方法触发该事件
+   */ 
+  let routerView = document.getElementById('routerView')
+  window.addEventListener('popstate', () => {
+    routerView.innerHTML = location.pathname
+  })
+  window.addEventListener('DOMContentLoaded', () => {
+    routerView.innerHTML = location.pathname
+    let linkList = document.querySelectorAll('a[href]')
+    linkList.forEach(el => el.addEventListener('click', (e) => {
+      e.preventDefault()
+      console.log(el.getAttribute('href'))
+      history.pushState(null, '', el.getAttribute('href'))
+      routerView.innerHTML = location.pathname
+    }))
+  })
+</script>
+</html>

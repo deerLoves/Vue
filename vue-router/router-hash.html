@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <ul>
+    <!-- 定义路由 -->
+    <li>
+      <a href="#/home">Home</a>
+    </li>
+    <li>
+      <a href="#/about">About</a>
+    </li>
+    <!-- 渲染路由对应的 UI -->
+    <div id="routerView"></div>
+  </ul>
+</body>
+<script>
+  let routerView = document.getElementById('routerView')
+  /**
+   * hash: hash是URL中hash(#)及后面的那部分，常用作锚点在页面内进行导航，改变URL中的hash部分不会引起页面刷新
+   * hashchange : 通过hashchange事件监听URL的变化
+   * 改变URL的方式只有这几种
+   * 1、通过浏览器前进后退改变URL
+   * 2、通过<a>标签改变URL
+   * 3、通过window.location改变URL
+   */
+  window.addEventListener('hashchange', () => {
+    let hash = location.hash
+    routerView.innerHTML = hash
+  })
+  /**
+   * DOMContentLoaded 和 load 区别
+   * DOMContentLoaded： 当初始化HTML文档被完全加载和解析完成之后，无需等待样式表、图像和子框架的完成加载
+   * load：仅用于检测一个完全加载的页面，页面的html、css、js、图片等资源都已加载完成之后才会触发load事件
+   */ 
+  window.addEventListener('DOMContentLoaded', () => {
+    if (!location.hash) { // 如果不存在hash值，那么重定向到 #/
+      location.hash = '/'
+    } else { // 如果存在hash值，那就渲染对应UI
+      let hash = location.hash
+      routerView.innerHTML = hash
+    }
+  })
+</script>
+</html>
