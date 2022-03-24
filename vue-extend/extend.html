@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="mount-point"></div>
+  <div id="root">this is root</div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script>
+    const Profile = Vue.extend({
+      template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>',
+      data: function () {
+        return {
+          firstName: 'Walter',
+          lastName: 'White',
+          alias: 'Heisenberg'
+        }
+      }
+    })
+    new Profile().$mount('#mount-point')
+    new Vue({
+      el: '#root',
+      data: {
+        inputShow: true,
+        name: 'Jack',
+        color: 'yellow',
+        direction: 'left'
+      }
+    })
+  </script>
+</body>
+</html>

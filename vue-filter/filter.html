@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root">
+    <profile id="profile"></profile>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script>
+    const Profile = Vue.extend({
+      template: `<div>{{ name | filterA | filterB(' a ', 'girl.') }} {{ 'She', ' likes ' | filterC }}</div>`,
+      data: function () {
+        return {
+          name: 'Jane'
+        }
+      },
+      filters: {
+        // 上述代码中，message是作为参数传给filterA 函数，而filterA 函数的返回值作为参数传给filterB函数，最终结果显示是由filterB返回的。
+        filterA: function (v) {
+          return v + ' is '
+        },
+        filterB: function (v, arg1, arg2) {
+          return v + arg1 + arg2
+        },
+        filterC: function (v1, v2) {
+          return v1 + v2 + 'eating apples.'
+        }
+      }
+    })
+    Vue.component('profile', Profile)
+    new Vue({
+      el: '#root',
+      data: {
+        inputShow: true,
+        name: 'Jack',
+        color: 'yellow',
+        direction: 'left'
+      }
+    })
+  </script>
+</body>
+</html>

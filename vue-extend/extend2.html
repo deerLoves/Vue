@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root">
+    <todo :todo-data="groceryList"></todo>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script>
+    const todoItem = Vue.extend({
+      template: `<li> {{ text }} </li>`,
+      props: {
+        text: {
+          type: String,
+          default: ''
+        }
+      }
+    })
+    const todoWrap = Vue.extend({
+      template: `
+        <ul>
+          <todo-item
+            v-for="(item, index) in todoData"
+            :key="item.text"
+            :text="item.text"
+          >
+          </todo-item>
+        </ul>
+      `,
+      props: {
+        todoData: {
+          type: Array,
+          default: () => []
+        }
+      },
+      components: {
+        todoItem: todoItem
+      }
+    })
+    Vue.component('todo', todoWrap)
+    new Vue({
+      el: '#root',
+      data: {
+        groceryList: [
+          { id: 0, text: '蔬菜' },
+          { id: 1, text: '奶酪' },
+          { id: 2, text: '可乐' }
+        ]
+      }
+    })
+  </script>
+</body>
+</html>

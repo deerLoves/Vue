@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root">
+    <form>
+      <div v-if="inputShow">
+        <label for="inpName">Name:</label>
+        <input id="inpName" type="text" v-focus:[direction]/>
+      </div>
+      <button type="button" @click="inputShow = !inputShow">Switch</button>
+      <div v-div_demo:param="{ color: color }">{{ name }}</div>
+      <button type="button" @click="inputShow = true">Change Name</button>
+    </form>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script>
+    // 函数简写：在 bind 和 update 时触发相同行为，而不关心其它的钩子。
+    // Vue.directive('color-swatch', function (el, binding) {
+    //   el.style.backgroundColor = binding.value
+    // })
+    Vue.directive('focus', {
+      bind: function (el, binding) {
+        console.log('Input has binded')
+        console.log(binding.arg)
+      },
+      inserted: function (el) {
+        console.log('Input has inserted')
+      },
+      update: function (el) {
+        console.log('Input is updating')
+      },
+      componentUpdated: function (el) {
+        console.log('Input has updated')
+      },
+      unbind: function (el) {
+        console.log('Input has unbinded')
+      }
+    })
+    Vue.directive('div_demo', {
+      bind: function (el) {
+        console.log('Div has binded')
+      },
+      inserted: function (el, binding) {
+        console.log(binding.value)
+        console.log(binding.expression)
+        console.log('Div has inserted')
+      },
+      // 所在组件的 VNode 更新时调用
+      update: function (el, binding, vnode, oldVnode) {
+        console.log('Div is updating')
+        console.log(el, binding, vnode, oldVnode)
+        console.log('vnode === oldVnode : ', vnode === oldVnode)
+      },
+      componentUpdated: function (el) {
+        console.log('Div has updated')
+      },
+      unbind: function (el) {
+        console.log('Div has unbinded')
+      }
+    })
+    new Vue({
+      el: '#root',
+      data: {
+        inputShow: true,
+        name: 'Jack',
+        color: 'yellow',
+        direction: 'left'
+      }
+    })
+  </script>
+</body>
+</html>
